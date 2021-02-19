@@ -5,11 +5,9 @@ export default class Component {
 
   init() {
     const t = document.createElement('template');
-    const template = (typeof this.template === 'function')
+    t.innerHTML = (typeof this.template === 'function')
                      ? this.template()
                      : this.template;
-
-    t.innerHTML = template;
     this.fragment = t.content.cloneNode(true);
   }
 
@@ -21,7 +19,6 @@ export default class Component {
 
   render() {
     this.beforeRender();
-    console.log(this.fragment)
     this.parent.appendChild(this.fragment);
   }
 }
