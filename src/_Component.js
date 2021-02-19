@@ -1,6 +1,9 @@
 export default class Component {
   constructor(props) {
     Object.keys(props).forEach(item => this[item] = props[item]);
+
+    this.template = Function; // Mandatory
+    this.beforeRender = Function; // Optional
   }
 
   init() {
@@ -14,8 +17,6 @@ export default class Component {
   selectElement(selector) {
     return this.fragment.querySelector(selector);
   }
-
-  beforeRender() {}
 
   render() {
     this.beforeRender();

@@ -3,14 +3,12 @@ import Header from './Header.js';
 // import { fetchArticleAll } from './API.js';
 
 class App {
-
   constructor(root) {
-    console.log('init App');
+    console.log('App init');
     this.root = root;
   }
   
   fragment = document.createDocumentFragment();
-
   components = [
     new Header({ parent: this.fragment }),
   ];
