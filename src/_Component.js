@@ -3,8 +3,6 @@ export default class Component {
     Object.keys(props).forEach(item => this[item] = props[item]);
   }
 
-  template() { return ``; }
-
   init() {
     const t = document.createElement('template');
     const template = (typeof this.template === 'function')
@@ -12,13 +10,18 @@ export default class Component {
                      : this.template;
 
     t.innerHTML = template;
-    this.fragment =  t.content.cloneNode(true);
+    this.fragment = t.content.cloneNode(true);
+  }
+
+  selectElement(selector) {
+    return this.fragment.querySelector(selector);
   }
 
   beforeRender() {}
 
   render() {
     this.beforeRender();
-    this.parent.append(this.fragment);
+    console.log(this.fragment)
+    this.parent.appendChild(this.fragment);
   }
 }

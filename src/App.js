@@ -11,13 +11,6 @@ class App {
   
   fragment = document.createDocumentFragment();
 
-  // state = {
-  // };
-
-  // methods = {
-  //   fetchArticleAll,
-  // };
-
   components = [
     new Header({ parent: this.fragment }),
   ];
