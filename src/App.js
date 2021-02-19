@@ -1,5 +1,12 @@
+import { createTemplateFragment } from './util.js';
+
 
 class App {
+
+  methods = {
+    createTemplateFragment,
+  };
+
   constructor(el) {
     console.log('App mounted');
     this.el = el;
