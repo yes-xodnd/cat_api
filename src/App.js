@@ -1,19 +1,36 @@
-import { createTemplateFragment } from './util.js';
+import Header from './Header.js';
 
+// import { fetchArticleAll } from './API.js';
 
 class App {
 
-  methods = {
-    createTemplateFragment,
-  };
+  constructor(root) {
+    console.log('init App');
+    this.root = root;
+  }
+  
+  fragment = document.createDocumentFragment();
 
-  constructor(el) {
-    console.log('App mounted');
-    this.el = el;
+  // state = {
+  // };
+
+  // methods = {
+  //   fetchArticleAll,
+  // };
+
+  components = [
+    new Header({ parent: this.fragment }),
+  ];
+
+  render() {
+    this.components.forEach(item => item.render());
+    this.root.appendChild(this.fragment);
+    console.log('App rendered');
   }
 }
 
 export function mountApp(selector) {
-  const el = document.querySelector(selector);
-  new App(el);
+  const root = document.querySelector(selector);
+  const app = new App(root);
+  app.render();
 }
