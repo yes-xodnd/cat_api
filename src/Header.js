@@ -6,6 +6,9 @@ export default class Header extends Component {
     super(props);
     this.init();
   }
-  
+
   template = `<header><h1>JS Practice Demo</h1></header>`;
+  beforeRender() {
+    console.log('before render Header');
+  }
 }

@@ -19,7 +19,7 @@ export default class Component {
   }
 
   render() {
-    this.beforeRender();
+    if (this.beforeRender) this.beforeRender();
     this.parent.appendChild(this.fragment);
   }
 }
