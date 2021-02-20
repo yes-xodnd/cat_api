@@ -38,7 +38,7 @@
                                              요소를 선택해 이벤트 리스너를 등록하고 여러가지 로직을 수행할 수 있습니다.
      - `selectElement()`: 선택자로 `fragment` 요소를 선택할 수 있습니다. 
 
-- 컴포넌트 기본 클래스와 예시 컴포넌트는 아래와 같습니다.
+- 기본 클래스를 상속받아 구현된 컴포넌트를 앱에 등록하고, 문서에 연결하는 과정의 예시는 다음과 같습니다.
 
 ``` js
 // _Component.js
@@ -85,6 +85,33 @@ export default class Header extends Component {
     console.log('before render Header');
   }
 }
+
+// App.js
+class App {
+  constructor(root) {
+      this.root = root;
+  }
+  fragment = document.createDocumentFragment();
+    
+  components = [
+      new Header({ parent: this.fragment });
+  ];
+
+  render() {
+	this.components.forEach(item => item.render());
+    this.root.appendChild(this.fragment );
+  }
+}
+
+export function mountApp(selector) {
+  const root = document.querySelector(selector);
+  const app = new App(root);
+  app.render();
+}
+
+//index.js
+import { mountApp } from './App.js';
+mountApp('#app');
 ```
 
 
