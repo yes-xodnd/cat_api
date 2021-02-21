@@ -5,5 +5,5 @@ export function fetchArticleAll() {
   return fetch(url)
   .then(r => r.json())
   .then(result => result)
-  .catch(() => alert('알 수 없는 오류가 발생했습니다. \n 다시 시도해주세요.'))
+  .catch(e => alert('알 수 없는 오류가 발생했습니다. \n 다시 시도해주세요.'))
 }

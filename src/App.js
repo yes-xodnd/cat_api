@@ -1,4 +1,5 @@
 import Header from './Header.js';
+import PostList from './PostList.js';
 
 // import { fetchArticleAll } from './API.js';
 
@@ -11,6 +12,7 @@ class App {
   fragment = document.createDocumentFragment();
   components = [
     new Header({ parent: this.fragment }),
+    new PostList({ parent: this.fragment }),
   ];
 
   render() {
