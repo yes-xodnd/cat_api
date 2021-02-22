@@ -4,7 +4,8 @@ export default class Component {
   }
 
   init() {
-    this.fragment = this.createTemplateFragment();
+    if (this.created) this.created();
+    this.fragment = this.createTemplateFragment(this.template);
   }
   
   render() {
@@ -17,11 +18,12 @@ export default class Component {
     return this.fragment.querySelector(selector);
   }
 
-  createTemplateFragment() {
+  createTemplateFragment(template) {
     const t = document.createElement('template');
-    t.innerHTML = (typeof this.template === 'function')
-                      ? this.template()
-                      : this.template;
+    const type = typeof template;
+    t.innerHTML = (type === 'function') ? template()
+                : (type === 'string')   ? template
+                : console.error('template은 함수 또는 문자열이어야 합니다.');
     return t.content.cloneNode(true);
   }
 }
