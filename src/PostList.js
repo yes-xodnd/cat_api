@@ -29,12 +29,12 @@ export default class PostList extends Component {
   }
 
   getPostList() {
-    const t = document.createDocumentFragment();
+    const fragment = document.createDocumentFragment();
     this.state.postList.forEach(post => {
-      const item = new PostListItem({ parent: t, post });
+      const item = new PostListItem({ parent: fragment, post });
       item.render();
     });
-    return t;
+    return fragment;
   }
 }
 
