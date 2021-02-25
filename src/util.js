@@ -8,22 +8,22 @@ export class StateObserver {
 
   constructor(state) {
     this.state = state;
-    this.observer = {};
+    this.observers = {};
   }
 
   observe = (prop, node, handler) => {
-    if (!this.observer[prop]) this.observer[prop] = [];
-    this.observer[prop].push(node);
+    if (!this.observers[prop]) this.observers[prop] = [];
+    this.observers[prop].push(node);
     node.addEventListener('set' + prop, handler);
   }
 
   set = (prop, newValue) => {
     this.state[prop] = newValue;
-    this._emit(prop);
+    this._publish(prop);
   }
   
-  _emit = prop => {
-    this.observer[prop].forEach(node => {
+  _publish = prop => {
+    this.observers[prop].forEach(node => {
       node.dispatchEvent(new Event('set' + prop));
     });
   }
