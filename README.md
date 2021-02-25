@@ -42,30 +42,39 @@
 
 ``` js
 // _Component.js
-
 export default class Component {
+  /**
+   * register every property in props object
+   * @param {object} props
+   */
   constructor(props) {
     Object.keys(props).forEach(item => this[item] = props[item]);
-
-    this.template = Function; // Mandatory
-    this.beforeRender = Function; // Optional
   }
 
+  /**
+   * call created() method & create DocumentFragment with template
+   */
   init() {
-    const t = document.createElement('template');
-    t.innerHTML = (typeof this.template === 'function')
-                     ? this.template()
-                     : this.template;
-    this.fragment = t.content.cloneNode(true);
+    if (this.created) this.created();
+    this._fragment = this._createTemplateFragment(this.template);
+  }
+  
+  
+  render() {
+    if (this.beforeRender) this.beforeRender();
+    this.parent.appendChild(this._fragment);
   }
 
   selectElement(selector) {
-    return this.fragment.querySelector(selector);
+    return this._fragment.querySelector(selector);
   }
 
-  render() {
-    if (this.beforeRender) this.beforeRender();
-    this.parent.appendChild(this.fragment);
+  _createTemplateFragment(template) {
+    const t = document.createElement('template');
+    t.innerHTML = (typeof template === 'string')   ? template
+                : (typeof template === 'function') ? template()
+                : null;
+    return t.content.cloneNode(true);
   }
 }
 
@@ -73,7 +82,6 @@ export default class Component {
 import Component from './_Component.js';
 
 export default class Header extends Component {
-  
   constructor(props) {
     super(props);
     this.init();
@@ -82,7 +90,8 @@ export default class Header extends Component {
   template = `<header><h1>JS Practice Demo</h1></header>`;
 
   beforeRender() {
-    console.log('before render Header');
+	const h1 = this.selectElement('h1');
+    h1.addEventListener('click', () => console.log('beforeRender test'));
   }
 }
 

@@ -1,9 +1,9 @@
-import Component from './_Component.js';
+import Component from './Component.js';
 import { fetchPostAll } from './API.js';
 
 export default class PostList extends Component {
-  constructor(props) {
-    super(props);
+  constructor({ parent, state, stateObserver }) {
+    super({ parent, state, stateObserver });
     this.init();
   }
 
@@ -15,12 +15,12 @@ export default class PostList extends Component {
 
   async created() {
     const postList = await fetchPostAll();
-    this.state.$set('postList', postList);
+    this.stateObserver.setState('postList', postList);
   }
 
   beforeRender() {
     this.main = this.selectElement('main');
-    this.state.$observe('postList', this.main, this.update);
+    this.stateObserver.subscribe('postList', this.main, this.update);
     this.main.appendChild(this.getPostList());
   }
 

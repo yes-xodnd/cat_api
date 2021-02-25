@@ -2,7 +2,7 @@ import Header from './Header.js';
 import PostList from './PostList.js';
 
 import { fetchPostAll } from './API.js';
-import { useStateObserver } from './util.js';
+import { StateObserver } from './util.js';
 
 
 class App {
@@ -10,7 +10,7 @@ class App {
     console.log('App init');
     this.root = root;
     this.fragment = document.createDocumentFragment();
-    useStateObserver(this.state);
+    this.stateObserver = new StateObserver(this.state);
   }
 
   state = {
@@ -24,10 +24,11 @@ class App {
   components() {
     const parent = this.fragment;
     const state = this.state;
+    const stateObserver = this.stateObserver;
 
     return [
       new Header({ parent }),
-      new PostList({ parent, state }),
+      new PostList({ parent, state, stateObserver }),
     ];
   };
 
