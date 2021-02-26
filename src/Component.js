@@ -4,17 +4,6 @@ export default class Component {
    * @param {object} props
    */
   constructor(props) {
-    if (props.constructor !== Object) {
-      throw new Error('props는 객체여야 합니다.');
-
-    } else if (!('parent' in props)) {
-      throw new Error('props는 parent 프로퍼티를 가져야합니다.');
-
-    } else if (!(props.parent instanceof HTMLElement)) {
-      throw new Error('parent 프로퍼티 값은 HTMLElement여야 합니다.');
-
-    }
-
     Object.keys(props).forEach(item => this[item] = props[item]);
   }
 
@@ -25,8 +14,10 @@ export default class Component {
     if (this.created) this.created();
     this._fragment = this._createTemplateFragment(this.template);
   }
-  
-  
+
+  /**
+   * calls beforeRender() method & append component to parent
+   */
   render() {
     if (this.beforeRender) this.beforeRender();
     this.parent.appendChild(this._fragment);

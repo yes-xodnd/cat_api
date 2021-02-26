@@ -1,53 +1,49 @@
 import Component from './Component.js';
-import { fetchPostAll } from './API.js';
+import InfiniteLoader from './InfiniteLoader.js';
 
 export default class PostList extends Component {
-  constructor({ parent, state, stateObserver }) {
-    super({ parent, state, stateObserver });
-    this.init();
-  }
-
   template = `
     <main>
       <h2>PostList</h2>
+      <section class="post-container"></section>
+      <div class="post-loading-circle">Loading</div>
     </main>
   `;
 
-  async created() {
-    const postList = await fetchPostAll();
-    this.stateObserver.setState('postList', postList);
+  constructor({ parent, state, stateObserver }) {
+    super({ parent, state, stateObserver });
+    this.init();
+
+    this.container = this.selectElement('.post-container');
   }
 
   beforeRender() {
-    this.main = this.selectElement('main');
-    this.stateObserver.subscribe('postList', this.main, this.update);
-    this.main.appendChild(this.getPostList());
+    this.stateObserver.subscribe('postList', this.container, this.update);
+
+    const infiniteLoader = new InfiniteLoader({
+      parent: this.selectElement('main'),
+      state: this.state,
+      stateObserver: this.stateObserver
+    });
+    
+    infiniteLoader.render();
   }
 
   update = e => {
-    e.target.appendChild(this.getPostList());
+    const { target } = e;
+    const lastIndex = target.lastChild?.getAttribute('key') * 1 || -1;
+    this.appendPostList(target, lastIndex + 1);
+    console.log('update PostList');
   }
 
-  getPostList() {
-    const fragment = document.createDocumentFragment();
-    this.state.postList.forEach(post => {
-      const item = new PostListItem({ parent: fragment, post });
-      item.render();
-    });
-    return fragment;
-  }
-}
+  appendPostList(target, startIndex) {
+    const PostListItem = (key) => `<div class="post-item" key="${key}"> ${key} </div>`;
 
-class PostListItem extends Component {
-  constructor(props) {
-    super(props);
-    this.init();
-  }
+    const newPostList = this.state.postList
+      .slice(startIndex)
+      .reduce((acc, post, index) => acc + PostListItem(startIndex + index), '');
 
-  template = () => {
-    const { id, userId, title, body } = this.post;
-    return `
-      <article>${ body }</article>
-    `;
+    target.insertAdjacentHTML('beforeend', newPostList);
+
   }
 }

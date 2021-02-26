@@ -125,3 +125,7 @@ mountApp('#app');
 
 
 
+### JSDoc 
+
+- 컴포넌트 기본 클래스 및 `StateObserver`의 메서드 중, 직관적으로 이해되지 않을만한 메서드에는 JSDoc 주석을 작성하였습니다.
+

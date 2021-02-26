@@ -1,7 +1,6 @@
 import Header from './Header.js';
 import PostList from './PostList.js';
 
-import { fetchPostAll } from './API.js';
 import { StateObserver } from './util.js';
 
 
