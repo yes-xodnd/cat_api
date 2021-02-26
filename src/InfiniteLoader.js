@@ -15,7 +15,7 @@ export default class InfiniteLoader extends Component {
         observer.unobserve(target);
         this.stateObserver.setState('isLoading', true);
 
-        const newPostList = await fetchPostList(5);
+        const newPostList = await fetchPostList(10);
         this.stateObserver.setState(
           'postList',
           [ ...this.state.postList, ...newPostList ]
