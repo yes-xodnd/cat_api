@@ -3,7 +3,7 @@ import { fetchPostList } from './API.js';
 
 export default class InfiniteLoader extends Component {
 
-  template = '<div class="infinite-loader" style="height: 100px"></div>';
+  template = '<div class="infinite-loader" style="height: 10px"></div>';
 
   constructor(props) {
     super(props);
@@ -26,7 +26,7 @@ export default class InfiniteLoader extends Component {
       }
     }
 
-    this.intersectionObserver = new IntersectionObserver(callback);
+    this.intersectionObserver = new IntersectionObserver(callback, { threshold: 1 });
   }
 
   beforeRender() {

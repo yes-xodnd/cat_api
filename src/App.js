@@ -14,6 +14,7 @@ class App {
 
   state = {
     postList: [],
+    isLoading: false,
   };
 
   methods = {

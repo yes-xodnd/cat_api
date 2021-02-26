@@ -4,22 +4,32 @@ import InfiniteLoader from './InfiniteLoader.js';
 export default class PostList extends Component {
   template = `
     <main>
-      <h2>PostList</h2>
       <section class="post-container"></section>
-      <div class="post-loading-circle">Loading</div>
+      <div class="post-loading">
+        <div class="circle"></div>
+      </div>
     </main>
   `;
 
   constructor({ parent, state, stateObserver }) {
     super({ parent, state, stateObserver });
     this.init();
-
-    this.container = this.selectElement('.post-container');
   }
 
   beforeRender() {
-    this.stateObserver.subscribe('postList', this.container, this.update);
+    this.stateObserver.subscribe(
+      'postList',
+      this.selectElement('.post-container'),
+      this.updatePostList
+    );
 
+    this.stateObserver.subscribe(
+      'isLoading',
+      this.selectElement('.post-loading'),
+      this.toggleLoading
+    );
+
+    // add infinite loader
     const infiniteLoader = new InfiniteLoader({
       parent: this.selectElement('main'),
       state: this.state,
@@ -29,7 +39,7 @@ export default class PostList extends Component {
     infiniteLoader.render();
   }
 
-  update = e => {
+  updatePostList = e => {
     const { target } = e;
     const lastIndex = target.lastChild?.getAttribute('key') * 1 || -1;
     this.appendPostList(target, lastIndex + 1);
@@ -44,6 +54,10 @@ export default class PostList extends Component {
       .reduce((acc, post, index) => acc + PostListItem(startIndex + index), '');
 
     target.insertAdjacentHTML('beforeend', newPostList);
+  }
 
+  toggleLoading = e => {
+    console.log('toggleLoading');
+    e.target.style.display = (this.state.isLoading) ? 'block' : 'none';
   }
 }
