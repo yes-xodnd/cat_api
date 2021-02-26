@@ -26,7 +26,7 @@ export default class InfiniteLoader extends Component {
       }
     }
 
-    this.intersectionObserver = new IntersectionObserver(callback, { threshold: 1 });
+    this.intersectionObserver = new IntersectionObserver(callback, { threshold: 0 });
   }
 
   beforeRender() {

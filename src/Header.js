@@ -2,7 +2,11 @@ import Component from './Component.js';
 
 export default class Header extends Component {
   
-  template = `<header><h1>JS Practice Demo</h1></header>`;
+  template = `
+    <header class="header">
+      <h1>JS PRACTICE DEMO</h1>
+    </header>
+  `;
   
   constructor(props) {
     super(props);

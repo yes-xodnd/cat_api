@@ -1,14 +1,38 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+
+
+/* animations */
+@keyframes spin {
+  to { transform: rotate(360deg); } 
+}
+
+
+/* class */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  background: linear-gradient(to right bottom, royalblue, rgb(62, 92, 182));
+  background: -webkit-linear-gradient(to right bottom, royalblue, rgb(62, 92, 182));
+  color: white;
+}
+
+.header h1 {
+  margin: 0;
+}
+
 
 .post-item {
   margin: 50px auto;
   width: 80%;
   height: 300px;
   box-shadow: 10px 10px 15px lightgrey;
-}
-
-
-@keyframes rotate-loading {
-  to { transform: rotate(360deg); } 
 }
 
 .post-loading {
@@ -22,5 +46,5 @@
   border-radius: 100%;
   border: 2px solid rgb(224, 224, 224);
   border-top-color: royalblue;
-  animation: rotate-loading 1s ease-in-out infinite;
+  animation: spin 1s ease-in-out infinite;
 }
