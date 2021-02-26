@@ -12,12 +12,11 @@ body {
 
 
 /* class */
-
 .header {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 200px;
+  height: 100px;
   background: linear-gradient(to right bottom, royalblue, rgb(62, 92, 182));
   background: -webkit-linear-gradient(to right bottom, royalblue, rgb(62, 92, 182));
   color: white;
