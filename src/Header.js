@@ -1,4 +1,5 @@
 import Component from './Component.js';
+import ButtonColorScheme from './ButtonColorScheme.js';
 
 export default class Header extends Component {
   
@@ -11,5 +12,11 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
     this.init();
+
+    const buttonColorScheme = new ButtonColorScheme({
+      parent: this.selectElement('header')
+    });
+    
+    buttonColorScheme.render();
   }
 }

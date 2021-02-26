@@ -13,6 +13,7 @@ body {
 
 /* class */
 .header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -26,16 +27,39 @@ body {
   margin: 0;
 }
 
+.button-colorscheme {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
+
+.button-colorscheme .slidebar {
+  position: relative;
+  width: 32px;
+  height: 16px;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 3px rgb(82, 78, 78);
+  background-color: lightgrey;
+}
+
+.button-colorscheme .switch {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 100%;
+  box-shadow: 2px 2px 5px grey;
+  background-color: white;
+  transition: 200ms;
+}
+
 .post-container {
-  text-align: center;
+  margin-bottom: 50px;
   display: grid;
   grid-template-columns: repeat(auto-fill, 300px);
   grid-auto-rows: 300px;
-
   gap: 20px;
   justify-content: center;
 }
-
 
 .post-item {
   margin: 50px auto;
@@ -52,6 +76,7 @@ body {
 
 .post-loading {
   display: none;
+  margin-top: 100px;
 }
 
 .post-loading .circle {
