@@ -1,9 +1,10 @@
+
+
+
 body {
   box-sizing: border-box;
   margin: 0;
 }
-
-
 
 /* animations */
 @keyframes spin {
@@ -18,9 +19,7 @@ body {
   align-items: center;
   justify-content: center;
   height: 100px;
-  background: linear-gradient(to right bottom, royalblue, rgb(62, 92, 182));
-  background: -webkit-linear-gradient(to right bottom, royalblue, rgb(62, 92, 182));
-  color: white;
+  border-bottom: 1px solid lightgrey;
 }
 
 .header h1 {
@@ -35,19 +34,21 @@ body {
 
 .button-colorscheme .slidebar {
   position: relative;
-  width: 32px;
-  height: 16px;
+  width: 36px;
+  height: 18px;
   border-radius: 10px;
-  box-shadow: inset 2px 2px 3px rgb(82, 78, 78);
+  box-shadow: inset 1px 1px 2px grey;
   background-color: lightgrey;
 }
 
 .button-colorscheme .switch {
   position: absolute;
-  width: 16px;
-  height: 16px;
+  top: 2px;
+  left: 2px;
+  width: 14px;
+  height: 14px;
   border-radius: 100%;
-  box-shadow: 2px 2px 5px grey;
+  box-shadow: 1px 1px 2px grey;
   background-color: white;
   transition: 200ms;
 }
