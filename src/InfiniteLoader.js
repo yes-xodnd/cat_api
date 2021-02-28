@@ -9,19 +9,13 @@ export default class InfiniteLoader extends Component {
     super(props);
     this.init();
 
+    const { handler } = props;
+
     const callback = async ([{ target, isIntersecting }], observer) => {
       if (isIntersecting) {
         console.log('infinite loader intersecting');
         observer.unobserve(target);
-        this.stateObserver.setState('isLoading', true);
-
-        const newPostList = await fetchPostList(10);
-        this.stateObserver.setState(
-          'postList',
-          [ ...this.state.postList, ...newPostList ]
-        );
-
-        this.stateObserver.setState('isLoading', false);
+        await handler();
         observer.observe(target);
       }
     }

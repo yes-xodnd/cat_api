@@ -1,5 +1,6 @@
 import Component from './Component.js';
 import InfiniteLoader from './InfiniteLoader.js';
+import { fetchPostList } from './API.js';
 
 export default class PostList extends Component {
   template = `
@@ -11,32 +12,33 @@ export default class PostList extends Component {
     </main>
   `;
 
-  constructor({ parent, state, stateObserver }) {
-    super({ parent, state, stateObserver });
+  constructor(props) {
+    super(props);
     this.init();
   }
 
   beforeRender() {
-    this.stateObserver.subscribe(
+    this.props.subscribe(
       'postList',
       this.selectElement('.post-container'),
       this.updatePostList
     );
 
-    this.stateObserver.subscribe(
+    this.props.subscribe(
       'isLoading',
       this.selectElement('.post-loading'),
       this.toggleLoading
     );
 
     // add infinite loader
-    const infiniteLoader = new InfiniteLoader({
-      parent: this.selectElement('main'),
-      state: this.state,
-      stateObserver: this.stateObserver
-    });
-    
-    infiniteLoader.render();
+
+    this.appendComponent([
+      InfiniteLoader,
+      { 
+        parent: this.selectElement('main'),
+        handler: this.infiniteLoaderHandler,
+      }
+    ]);
   }
 
   updatePostList = e => {
@@ -49,7 +51,7 @@ export default class PostList extends Component {
   appendPostList(target, startIndex) {
     const PostListItem = (key) => `<div class="post-item" key="${key}"> ${key} </div>`;
 
-    const newPostList = this.state.postList
+    const newPostList = this.props.state.postList
       .slice(startIndex)
       .reduce((acc, post, index) => acc + PostListItem(startIndex + index), '');
 
@@ -57,7 +59,20 @@ export default class PostList extends Component {
   }
 
   toggleLoading = e => {
-    console.log('toggleLoading');
-    e.target.style.display = (this.state.isLoading) ? 'block' : 'none';
+    e.target.style.display = (this.props.state.isLoading) ? 'block' : 'none';
+  }
+
+  infiniteLoaderHandler = async () => {
+    this.props.setState('isLoading', true);
+    
+    const newPostList = await fetchPostList(10);
+    this.props.setState(
+      'postList',
+      [ ...this.props.state.postList, ...newPostList ]
+    );
+    
+    this.props.setState('isLoading', false);
   }
 }
+
+

@@ -5,7 +5,9 @@ export default class Component {
    * @param {{ parent: Element }} props - props from parent component
    */
   constructor(props) {
-    this.parent = props.parent;
+    const { parent, ..._props } = props;
+    this.parent = parent;
+    this.props = _props;
   }
 
   /**
