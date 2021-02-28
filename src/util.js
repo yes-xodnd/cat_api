@@ -1,9 +1,5 @@
-export class StateObserver {
-
-  constructor(state) {
-    this._state = state;
-    this._subscribers = {};
-  }
+export function StateObserver(state) {
+  this._subscribers = {};
 
   /**
    * subscribe state property
@@ -12,7 +8,7 @@ export class StateObserver {
    * @param {function} handler on setprop event handler
    * @param {object} options eventlistener options - can't use capture
    */
-  subscribe = (prop, node, handler, options = {}) => {
+  this.subscribe = (prop, node, handler, options = {}) => {
     if (options === true || ('capture' in options && options.capture === true)) {
       throw new Error('capture는 사용할 수 없습니다.');
     }
@@ -28,12 +24,12 @@ export class StateObserver {
    * @param {string} prop target property
    * @param {*} newValue new value
    */
-  setState = (prop, newValue) => {
-    this._state[prop] = newValue;
+  this.setState = (prop, newValue) => {
+    state[prop] = newValue;
     this._publish(prop);
   }
   
-  _publish = prop => {
+  this._publish = prop => {
     const e = new Event('set' + prop);
     this._subscribers[prop].forEach(node => {
       node.dispatchEvent(e);
