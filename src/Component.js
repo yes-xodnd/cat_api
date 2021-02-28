@@ -1,15 +1,8 @@
-import StateObserver from './util.js';
-
-/**
- * Props
- * @typedef {Object} Props
- * @property {Element} parent
- */
+import { StateObserver } from './util.js';
 
 export default class Component {
   /**
-   * register every property in props object
-   * @param {Props} props
+   * @param {{ parent: Element }} props - props from parent component
    */
   constructor(props) {
     this.parent = props.parent;
@@ -46,8 +39,9 @@ export default class Component {
     });
   }
 
-  useStateObserver() {
-    
+  useStateObserver(state) {
+    const _observer = new StateObserver(state);
+    return [_observer.setState, _observer.subscribe];
   }
 
   _createTemplateFragment(template) {
