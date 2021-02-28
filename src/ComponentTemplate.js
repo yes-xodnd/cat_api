@@ -2,7 +2,7 @@ import Component from './Component.js';
 
 export default class ComponentName extends Component {
 
-  template = '';
+  template =  ``;
 
   constructor(props) {
     super(props);

@@ -1,10 +1,18 @@
+import StateObserver from './util.js';
+
+/**
+ * Props
+ * @typedef {Object} Props
+ * @property {Element} parent
+ */
+
 export default class Component {
   /**
    * register every property in props object
-   * @param {object} props
+   * @param {Props} props
    */
   constructor(props) {
-    Object.keys(props).forEach(item => this[item] = props[item]);
+    this.parent = props.parent;
   }
 
   /**
@@ -23,8 +31,23 @@ export default class Component {
     this.parent.appendChild(this._fragment);
   }
 
+  getFragment() {
+    return this._fragment;
+  }
+
   selectElement(selector) {
     return this._fragment.querySelector(selector);
+  }
+
+  appendComponent(...args) {
+    args.forEach(([component, props]) => {
+      const child = new component(props);
+      child.render();
+    });
+  }
+
+  useStateObserver() {
+    
   }
 
   _createTemplateFragment(template) {

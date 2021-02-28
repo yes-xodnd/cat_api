@@ -1,10 +1,33 @@
 import Header from './Header.js';
 import PostList from './PostList.js';
+import Component from './Component.js';
 
 import { StateObserver } from './util.js';
 
 
-class App {
+export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.init();
+
+    const parent = this.getFragment();
+
+    this.appendComponent(
+      [ Header, { parent } ],
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+class oldApp {
   constructor(root) {
     console.log('App init');
     this.root = root;
@@ -28,7 +51,7 @@ class App {
 
     return [
       new Header({ parent }),
-      new PostList({ parent, state, stateObserver }),
+      // new PostList({ parent, state, stateObserver }),
     ];
   };
 
@@ -41,6 +64,6 @@ class App {
 
 export function mountApp(selector) {
   const root = document.querySelector(selector);
-  const app = new App(root);
+  const app = new App({ parent: root });
   app.render();
 }
