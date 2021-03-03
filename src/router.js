@@ -34,14 +34,18 @@ class Router {
   }
 
   getPath() {
-    const _pathname = this.isGithub
+    const pathname = this.isGithub
                      ? location.pathname.slice(17)
                      : location.pathname;
+
+    console.log(pathname)
     
-    const pathList = _pathname.split('/').filter(x => x !== '');
+    const pathList = pathname.split('/').filter(x => x !== '');
     const isIndex = !pathList.length || pathList.includes('index.html');
 
-    return isIndex ? '/' : '/' + pathList[0];
+    const path = isIndex ? '/' : '/' + pathList[0];
+    console.log(path);
+    return path;
   }
 
   init() {
