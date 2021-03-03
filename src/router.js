@@ -36,9 +36,19 @@ class Router {
     this.root.append(fragment);
   }
 
-  checkPath() {
-    const path = '/' + location.pathname.split('/')[1];
-    if (this._isValidPath) {
+  _getPath() {
+    const pathname = location.pathname.split('/').filter(x => x !== '');
+    const isIndex = !pathname.length || pathname.includes('index.html');
+    const isGithub = pathname.includes('js_practice_demo');
+
+    return isIndex  ? '/'
+         : isGithub ? '/' + pathname[1]
+         : '/' + pathname[0];
+  }
+
+  _checkPath() {
+    const path = this._getPath();
+    if (this._isValidPath(path)) {
       this._switchPage(path)
     } else {
       // 예외처리 -> not found 구현
@@ -46,7 +56,7 @@ class Router {
   }
 
   init() {
-    this.checkPath();
+    this._checkPath();
   }
 }
 
@@ -64,7 +74,7 @@ export function useRouter(app) {
   app.getFragment().append(root);
   router.root = root;
 
-  window.addEventListener('popstate', () => router.checkPath());
+  window.addEventListener('popstate', () => router._checkPath());
   
   return router;
 }

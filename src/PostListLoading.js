@@ -20,6 +20,8 @@ export default class PostListLoading extends Component {
   }
   
   toggleLoading = e => {
-    e.target.style.display = (this.props.state.isLoading) ? 'block' : 'none';
+    const { target } = e;
+    const { isLoading } = this.props.state;
+    target.style.visibility = (isLoading) ? 'visible' : 'visible';
   }
 }

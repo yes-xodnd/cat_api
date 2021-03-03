@@ -96,7 +96,7 @@ body {
 }
 
 .post-loading {
-  display: none;
+  visibility: hidden;
   margin-top: 100px;
 }
 

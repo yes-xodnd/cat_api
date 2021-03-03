@@ -7,10 +7,6 @@ export default class PostList extends Component {
   template = `
     <main>
       <section class="post-container"></section>
-      
-      <div class="post-loading">
-        <div class="circle"></div>
-      </div>
     </main>
   `;
 
