@@ -31,7 +31,7 @@ export function StateObserver(state) {
   
   this._publish = prop => {
     const e = new Event('set' + prop);
-    this._subscribers[prop].forEach(node => {
+    this._subscribers[prop]?.forEach(node => {
       node.dispatchEvent(e);
     });
   }
