@@ -2,7 +2,7 @@ class Router {
   root = document.createElement('div');
   routes = [];
   pages = {};
-  base = '';
+  basename = '';
   
   registerPath = (path, ...components) => {
     if (this.pages.hasOwnProperty(path)) throw new Error('중복된 url입니다.');
@@ -13,7 +13,7 @@ class Router {
 
   navigate(path) {
     if (!this._isValidPath(path)) throw new Error('등록되지 않은 path입니다.');
-    history.pushState({}, '', this.base + path);
+    history.pushState({}, '', this.basename + path);
     this._renderPage(path);
   }
 
@@ -34,23 +34,20 @@ class Router {
   }
 
   getPath() {
-    const pathname = this.isGithub
-                     ? location.pathname.slice(17)
+    const pathname = this.basename
+                     ? location.pathname.slice(this.basename.length)
                      : location.pathname;
-
-    console.log(pathname)
     
     const pathList = pathname.split('/').filter(x => x !== '');
     const isIndex = !pathList.length || pathList.includes('index.html');
 
     const path = isIndex ? '/' : '/' + pathList[0];
-    console.log(path);
     return path;
   }
 
   init() {
     if (location.pathname.includes('js_practice_demo')) {
-      this.base = '/js_practice_demo';
+      this.basename = '/js_practice_demo';
     }
     this.navigate(this.getPath());
   }
