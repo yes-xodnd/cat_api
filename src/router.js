@@ -1,8 +1,8 @@
 class Router {
-  root;
+  root = document.createElement('div');
   routes = [];
   pages = {};
-  isGithub = false;
+  base = '';
   
   registerPath = (path, ...components) => {
     if (this.pages.hasOwnProperty(path)) throw new Error('중복된 url입니다.');
@@ -13,7 +13,7 @@ class Router {
 
   navigate(path) {
     if (!this._isValidPath(path)) throw new Error('등록되지 않은 path입니다.');
-    history.pushState({}, '', path);
+    history.pushState({}, '', this.base + path);
     this._renderPage(path);
   }
 
@@ -33,7 +33,7 @@ class Router {
     this.root.append(fragment);
   }
 
-  _getPath() {
+  getPath() {
     const _pathname = this.isGithub
                      ? location.pathname.slice(17)
                      : location.pathname;
@@ -44,17 +44,11 @@ class Router {
     return isIndex ? '/' : '/' + pathList[0];
   }
 
-  _checkPath() {
-    const path = this._getPath();
-    this.navigate(path);
-      // 예외처리 -> not found 구현
-  }
-
   init() {
     if (location.pathname.includes('js_practice_demo')) {
-      this.isGithub = true;
+      this.base = '/js_practice_demo';
     }
-    this._checkPath();
+    this.navigate(this.getPath());
   }
 }
 
@@ -67,13 +61,12 @@ let isUsingRouter = false;
 export function useRouter(app) {
   if (isUsingRouter) return;
   isUsingRouter = true;
-  
-  const root = document.createElement('div');
-  app.getFragment().append(root);
-  router.root = root;
+  app.getFragment().append(router.root);
+  window.addEventListener(
+    'popstate',
+    () => router.navigate(router.getPath())
+  );
 
-  window.addEventListener('popstate', () => router._checkPath());
-  
   return router;
 }
 
