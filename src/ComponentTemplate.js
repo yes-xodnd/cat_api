@@ -8,12 +8,4 @@ export default class ComponentName extends Component {
     super(props);
     this.init();
   }
-
-  created() {
-    
-  }
-
-  beforeRender() {
-    
-  }
 }

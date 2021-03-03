@@ -21,6 +21,8 @@ export default class ButtonColorScheme extends Component {
 
     this.slidebar = this.selectElement('.slidebar');
     this.switch = this.selectElement('.switch');
+    
+    this.addListener('.button-colorscheme', 'click', this.toggle);
   }
 
   created() {
@@ -31,10 +33,6 @@ export default class ButtonColorScheme extends Component {
       this.isDarkScheme = true;
       document.body.className = 'dark';
     };
-  }
-
-  beforeRender() {
-    this.addListener('.button-colorscheme', 'click', this.toggle);
   }
 
   toggle = e => {
