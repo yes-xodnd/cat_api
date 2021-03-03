@@ -14,15 +14,11 @@ class Router {
   navigate(path) {
     if (!this._isValidPath(path)) throw new Error('등록되지 않은 path입니다.');
     history.pushState({}, '', path);
-    this._switchPage(path);
+    this._renderPage(path);
   }
 
   _isValidPath(path) {
     return this.routes.includes(path);
-  }
-
-  _switchPage(path) {
-    this._renderPage(path);
   }
 
   _renderPage(path) {
@@ -50,11 +46,8 @@ class Router {
 
   _checkPath() {
     const path = this._getPath();
-    if (this._isValidPath(path)) {
-      this._switchPage(path);
-    } else {
+    this.navigate(path);
       // 예외처리 -> not found 구현
-    }
   }
 
   init() {
