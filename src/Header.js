@@ -12,8 +12,10 @@ export default class Header extends Component {
   constructor(props) {
     super(props);
     this.init();
+    
     this.appendComponent(
-      [ButtonColorScheme, { parent: this.selectElement('header') }]
+      ButtonColorScheme,
+      { parent: this.selectElement('header') }
     );
   }
 }

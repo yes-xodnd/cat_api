@@ -34,11 +34,21 @@ export default class Component {
     return this._fragment.querySelector(selector);
   }
 
-  appendComponent(...args) {
-    args.forEach(([component, props]) => {
-      const child = new component(props);
-      child.render();
-    });
+  /**
+   * add event listener on element in the component
+   * @param {string} selector 
+   * @param {string} type 
+   * @param {function} callback 
+   * @param {Object} options 
+   */
+  addListener(selector, type, callback, options) {
+    this.selectElement(selector)?.addEventListener(type, callback, options);
+  }
+
+  appendComponent(component, props = {}) {
+    if (!props.hasOwnProperty('parent')) props.parent = this.parent;
+    const child = new component(props);
+    child.render();
   }
 
   useStateObserver(state) {

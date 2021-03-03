@@ -32,13 +32,13 @@ export default class PostList extends Component {
 
     // add infinite loader
 
-    this.appendComponent([
+    this.appendComponent(
       InfiniteLoader,
       { 
         parent: this.selectElement('main'),
         handler: this.infiniteLoaderHandler,
       }
-    ]);
+    );
   }
 
   updatePostList = e => {

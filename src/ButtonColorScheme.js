@@ -2,15 +2,18 @@ import Component from './Component.js';
 
 export default class ButtonColorScheme extends Component {
 
-  isDarkscheme = false;
+  isDarkScheme = false;
 
-  template = () => `
-    <div class="button-colorscheme">
-      <div class="slidebar" style="background: ${this.getBackgroundStyle()}">
-        <div class="switch" style="transform: ${this.getTransformStyle()}"></div>
+  template = () => {
+    const active = this.isDarkScheme ? 'active' : '';
+    return `
+      <div class="button-colorscheme">
+        <div class="slidebar ${active}">
+          <div class="switch ${active}"></div>
+        </div>
       </div>
-    </div>
-  `;
+    `;
+  };
 
   constructor(props) {
     super(props);
@@ -21,28 +24,30 @@ export default class ButtonColorScheme extends Component {
   }
 
   created() {
-    if (window.matchMedia('(prefered-color-scheme: dark)').matches) {
-      this.isDarkscheme = true;
+    if (
+      window.matchMedia('(prefered-color-scheme: dark)').matches ||
+      localStorage.getItem('colorscheme') === 'dark'
+      ) {
+      this.isDarkScheme = true;
+      document.body.className = 'dark';
     };
   }
 
   beforeRender() {
-    const container = this.selectElement('.button-colorscheme');
-    container.addEventListener('click', this.toggle);
-  }
-
-  getTransformStyle() {
-    return (this.isDarkscheme) ? 'translateX(16px)' : 'translateX(0px)';
-  }
-
-  getBackgroundStyle() {
-    return (this.isDarkscheme) ? 'rgb(62, 92, 182)' : 'lightgrey';
+    this.addListener('.button-colorscheme', 'click', this.toggle);
   }
 
   toggle = e => {
-    this.isDarkscheme = !this.isDarkscheme;
-    this.switch.style.transform = this.getTransformStyle();
-    this.slidebar.style.background = this.getBackgroundStyle();
-    document.body.className = this.isDarkscheme ? 'dark' : 'default';
+    this.isDarkScheme = !this.isDarkScheme;
+    this.switch.classList.toggle('active');
+    this.slidebar.classList.toggle('active');
+    
+    if (this.isDarkScheme) {
+      document.body.className = 'dark';
+      localStorage.setItem('colorscheme', 'dark');
+    } else {
+      document.body.className = 'default';
+      localStorage.setItem('colorscheme', 'default');
+    }
   }
 }

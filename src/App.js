@@ -1,26 +1,39 @@
-import Header from './Header.js';
-import PostList from './PostList.js';
 import Component from './Component.js';
 
-export default class App extends Component {
+// components
+import Header from './Header.js';
+import PostList from './PostList.js';
+import Home from './Home.js';
+import { useRouter } from './router.js';
 
+export default class App extends Component {
+  
   state = {
     postList: [],
     isLoading: false,
   };
-
+  
   constructor(props) {
     super(props);
     this.init();
-
+    
     const [setState, subscribe] = this.useStateObserver(this.state);
-    const state = this.state;
-    const parent = this.getFragment();
 
-    this.appendComponent(
-      [ Header, { parent } ],
-      [ PostList, { parent, state, setState, subscribe } ],
-    );
+    this.appendComponent(Header);
+    
+    const router = useRouter(this);
+    const state = this.state;
+
+    router
+      .registerPath(
+        '/',
+        [ Home ]
+      )
+      .registerPath(
+        '/posts', 
+        [ PostList, {state, setState, subscribe } ]
+      )
+      .init();
   }
 }
 
