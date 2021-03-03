@@ -2,6 +2,7 @@ class Router {
   root;
   routes = [];
   pages = {};
+  isGithub = false;
   
   registerPath = (path, ...components) => {
     if (this.pages.hasOwnProperty(path)) throw new Error('중복된 url입니다.');
@@ -37,26 +38,29 @@ class Router {
   }
 
   _getPath() {
-    const pathname = location.pathname.split('/').filter(x => x !== '');
-    console.log(pathname);
-    const isIndex = !pathname.length || pathname.includes('index.html');
-    const isGithub = pathname.includes('js_practice_demo');
+    const _pathname = this.isGithub
+                     ? location.pathname.slice(17)
+                     : location.pathname;
+    
+    const pathList = _pathname.split('/').filter(x => x !== '');
+    const isIndex = !pathList.length || pathList.includes('index.html');
 
-    return isIndex  ? '/'
-         : isGithub ? '/' + pathname[1]
-         : '/' + pathname[0];
+    return isIndex ? '/' : '/' + pathList[0];
   }
 
   _checkPath() {
     const path = this._getPath();
     if (this._isValidPath(path)) {
-      this._switchPage(path)
+      this._switchPage(path);
     } else {
       // 예외처리 -> not found 구현
     }
   }
 
   init() {
+    if (location.pathname.includes('js_practice_demo')) {
+      this.isGithub = true;
+    }
     this._checkPath();
   }
 }
