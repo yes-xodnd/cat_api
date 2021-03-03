@@ -27,7 +27,7 @@ class Router {
   _renderPage(path) {
     const fragment = document.createDocumentFragment();
 
-    this.pages[path].forEach(([component, props = {}]) => {
+    this.pages[path]?.forEach(([component, props = {}]) => {
       const child = new component({ ...props, parent: fragment });
       child.render();
     });
@@ -38,6 +38,7 @@ class Router {
 
   _getPath() {
     const pathname = location.pathname.split('/').filter(x => x !== '');
+    console.log(pathname);
     const isIndex = !pathname.length || pathname.includes('index.html');
     const isGithub = pathname.includes('js_practice_demo');
 
