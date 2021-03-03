@@ -1,11 +1,13 @@
 import Component from './Component.js';
 import InfiniteLoader from './InfiniteLoader.js';
+import PostListLoading from './PostListLoading.js';
 import { fetchPostList } from './API.js';
 
 export default class PostList extends Component {
   template = `
     <main>
       <section class="post-container"></section>
+      
       <div class="post-loading">
         <div class="circle"></div>
       </div>
@@ -15,31 +17,38 @@ export default class PostList extends Component {
   constructor(props) {
     super(props);
     this.init();
-  }
 
-  beforeRender() {
     this.props.subscribe(
       'postList',
       this.selectElement('.post-container'),
       this.updatePostList
     );
 
-    this.props.subscribe(
-      'isLoading',
-      this.selectElement('.post-loading'),
-      this.toggleLoading
-    );
-
-    // add infinite loader
-
+    const parent = this.selectElement('main');
     this.appendComponent(
       InfiniteLoader,
       { 
-        parent: this.selectElement('main'),
+        parent,
         handler: this.infiniteLoaderHandler,
       }
     );
+
+    this.appendComponent(
+      PostListLoading,
+      {
+        parent,
+        state: this.props.state,
+        subscribe: this.props.subscribe
+      }
+    );
+    
+    if (!this.props.state.postList.length) {
+      this.infiniteLoaderHandler();
+    } else {
+      this.appendPostList(this.selectElement('.post-container'), 0);
+    }
   }
+
 
   updatePostList = e => {
     const { target } = e;
@@ -56,10 +65,6 @@ export default class PostList extends Component {
       .reduce((acc, post, index) => acc + PostListItem(startIndex + index), '');
 
     target.insertAdjacentHTML('beforeend', newPostList);
-  }
-
-  toggleLoading = e => {
-    e.target.style.display = (this.props.state.isLoading) ? 'block' : 'none';
   }
 
   infiniteLoaderHandler = async () => {
