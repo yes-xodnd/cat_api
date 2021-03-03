@@ -1,5 +1,4 @@
 import Component from './Component.js';
-import { fetchPostList } from './API.js';
 
 export default class InfiniteLoader extends Component {
 
@@ -21,9 +20,7 @@ export default class InfiniteLoader extends Component {
     }
 
     this.intersectionObserver = new IntersectionObserver(callback, { threshold: 0 });
-  }
 
-  beforeRender() {
     const loader = this.selectElement('.infinite-loader');
     this.intersectionObserver.observe(loader);
   }
