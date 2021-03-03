@@ -5,7 +5,7 @@ export default class Header extends Component {
   
   template = `
     <header class="header">
-      <h1>JS PRACTICE DEMO</h1>
+      <h1>JavaScript Practice</h1>
     </header>
   `;
   
